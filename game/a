@@ -1,0 +1,442 @@
+if($hkont){
+                            if($dkont){
+                                mysqli_query($conn,"UPDATE `gkullanici` SET `oyun`='1'");
+                                $okont = false;
+                                for($i=0;$i<count($kisiler);$i++){
+                                    if($kisiler[$i]['oyun'] == "1"){
+                                        $okont = true;
+                                    }
+                                }
+                            }
+                            else{
+                                echo "<div class = 'main-hazir'>Hazır</div>";
+                            }
+                        }
+
+
+
+                        mysqli_query( $conn,"UPDATE `gkullanici` SET `oyun`='0'");
+
+
+
+                        if($kisiler[$i]['oyun'] == '1' && $kisiler[$i]['giris'] == '1'){                          
+                                    if($kisiler[$i]['ad'] == $_SESSION['ad']){
+                                        echo "<div class ='main-hazir'>Oyun başlıyor</div>";
+                                    }
+                                }
+
+
+
+
+
+
+
+                                if (!isset($_SESSION['ad']) || !isset($_SESSION['game'])) {
+        header('location:index.php');
+        exit();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    if(deger != "."){
+                if(sonuc.innerHTML.substr(-2,1) != "."){
+                    if(sonuc.innerHTML.length > 1 && say == "0" && sonuc.innerHTML.substr(-3,1) =="+" || sonuc.innerHTML.substr(-3,1) =="-"
+                    || sonuc.innerHTML.substr(-3,1) =="*" || sonuc.innerHTML.substr(-3,1) =="/"){
+                        sonuc.innerHTML = sonuc.innerHTML.substr(0,sonuc.innerHTML.length-1);
+                    }
+                }
+            }
+
+
+
+
+
+            <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Document</title>
+    <style type="text/css">
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            font-family: sans-serif;
+        }
+        .makina{
+            display: grid;
+            grid-template-rows: 20px 350px;
+            grid-row-gap: 30px;
+            width: 209px;
+            justify-items: center;
+            
+        }
+        .sayilar{
+            display: grid;
+            grid-template-columns: repeat(4, 50px);
+            grid-template-rows: repeat(6, 40px);
+            grid-row-gap: 15px;
+            grid-column-gap: 3px;
+        }
+        .makina #sonuc{
+            height: 40px;
+            width: 100%;
+            border-radius: 7px;
+            border: 1px solid grey;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .sayilar button{
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            border: 1px solid grey;
+            background-color: whitesmoke;
+        }
+        @media only screen and (max-width:768px){
+            body{
+                height: var(--vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="makina">
+        <div id="sonuc"></div>
+        <div class="sayilar">
+            <button>%</button>
+            <button>CE</button>
+            <button>C</button>
+            <button></button>
+            <button>1/x</button>
+            <button>x^2</button>
+            <button>√</button>
+            <button id="islem">/</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button id="islem">*</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button id="islem">-</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button id="islem">+</button>
+            <button>+/-</button>
+            <button>0</button>
+            <button id="islem">.</button>
+            <button>=</button>
+        </div>
+    </div>
+    <p id="a"></p>
+    <script>
+        window.addEventListener("load", function(){
+            document.documentElement.style.setProperty("--vh", window.innerHeight + "px");
+        });
+
+        document.addEventListener('dblclick', function(event) {
+            event.preventDefault();
+        });
+
+        let sonuc = document.getElementById("sonuc");
+        let sayilar = document.getElementsByTagName("button");
+        let kont = false;
+        let sifir = false;
+        let gecersiz = false;
+        let say = "";
+        let nokta = false;
+
+        for(let i=0; i<sayilar.length;i++){
+            sayilar[i].onclick = hesap;
+        }
+
+        function hesap(){
+            let deger = this.innerHTML;
+            
+            if(deger == "0" || deger == "1" || deger == "2" || deger == "3" ||
+            deger == "4" || deger == "5" || deger == "6" || deger == "7" ||
+            deger == "8" || deger == "9"){
+                say += deger;
+            }
+            else if(deger == "+" || deger == "-" || deger == "/" || deger == "*" || deger == "CE"){
+                if(sonuc.innerHTML.substr(-1,1) != "."){
+                    nokta = false;
+                }
+                if(deger=="-"){
+                    say = "-";
+                }
+                else if(deger=="+"){
+                    say = "+";
+                }
+                else{
+                    say = "";
+                }
+            }
+            else if(deger == "C"){
+                say = say.substr(0,say.length-1);
+            }
+            document.getElementById("a").innerHTML = say;
+            if(gecersiz){
+                sonuc.innerHTML = "";
+                gecersiz = false;
+            }
+            
+            if(say.substr(0,1) == "+" || say.substr(0,1) == "-"){
+                if(say.substr(1,1) == "0"){
+                    say = say.substr(1,1);
+                }
+                document.getElementById("a").innerHTML = say;
+            }
+            
+            if(deger == "="){
+                try {
+                    if(sonuc.innerHTML != ""){   
+                        if(sonuc.innerHTML.slice(-1) == "+" || sonuc.innerHTML.slice(-1) == "-" || sonuc.innerHTML.slice(-1) == "*" || sonuc.innerHTML.slice(-1) == "/"){
+                            sonuc.innerHTML = sonuc.innerHTML.substr(0,sonuc.innerHTML.length-1);
+                        }
+                        sonuc.innerHTML = eval(sonuc.innerHTML);
+                        if(sonuc.innerHTML.match(/\./g)){
+                            nokta = true;
+                        }
+                    }
+                }
+                catch (e) {
+                    sonuc.innerHTML = "";
+                }
+                return;   
+            }          
+            else if(deger == "%"){
+                try {
+                    if(sonuc.innerHTML != ""){
+                        if(sonuc.innerHTML.substr(-1,1) != "+" && sonuc.innerHTML.substr(-1,1) != "-" 
+                        && sonuc.innerHTML.substr(-1,1) != "/" && sonuc.innerHTML.substr(-1,1) != "*" && sonuc.innerHTML.substr(-1,1) != "."){
+                            if(sonuc.innerHTML.match(/\*/g) ||
+                            sonuc.innerHTML.match(/\-/g) ||
+                            sonuc.innerHTML.match(/\+/g) ||
+                            sonuc.innerHTML.match(/\//g)){
+                                if(say.substr(0,1) == "+" || say.substr(0,1) == "-"){
+                                    say = say.substr(1,say.length);
+                                }
+                                sonuc.innerHTML = sonuc.innerHTML.slice(0,sonuc.innerHTML.lastIndexOf(say)) + sonuc.innerHTML.slice(sonuc.innerHTML.lastIndexOf(say),1);
+                                sonuc.innerHTML = sonuc.innerHTML + eval(say)/100;
+                                say = eval(say) / 100;
+                                say = say.toString();
+                            }
+                            else{
+                                sonuc.innerHTML = eval(sonuc.innerHTML)/100;
+                            }
+                        }
+                        say = sonuc.innerHTML;
+                        if(say.match(/\./g)){
+                            nokta = true;
+                        }
+                    }
+                }
+                catch (e) {
+                    sonuc.innerHTML = "0";
+                }
+                return;   
+            }
+            else if(deger == "CE"){
+                try {
+                    sonuc.innerHTML = "";
+                }
+                catch (e) {
+                    sonuc.innerHTML = "0";
+                }
+                return;   
+            }
+            else if(deger == "C"){
+                try {
+                    sonuc.innerHTML = sonuc.innerHTML.substr(0, sonuc.innerHTML.length -1);
+                }
+                catch (e) {
+                    sonuc.innerHTML = "0";
+                }
+                return;   
+            }
+            else if(deger == "1/x"){
+                try {
+                    if(sonuc.innerHTML != ""){
+                        if(sonuc.innerHTML == "0"){
+                            sonuc.innerHTML = "Sıfıra bölünemez";
+                            gecersiz = true;
+                        }
+                        else{
+                            if(sonuc.innerHTML.substr(-1,1) != "+" && sonuc.innerHTML.substr(-1,1) != "-" 
+                            && sonuc.innerHTML.substr(-1,1) != "/" && sonuc.innerHTML.substr(-1,1) != "*" && sonuc.innerHTML.substr(-1,1) != "."){
+                                if(sonuc.innerHTML.match(/\*/g) ||
+                                sonuc.innerHTML.match(/\-/g) ||
+                                sonuc.innerHTML.match(/\+/g) ||
+                                sonuc.innerHTML.match(/\//g)){
+                                    if(say.substr(0,1) == "+" || say.substr(0,1) == "-"){
+                                        say = say.substr(1,say.length);
+                                    }
+                                    sonuc.innerHTML = sonuc.innerHTML.slice(0,sonuc.innerHTML.lastIndexOf(say)) + sonuc.innerHTML.slice(sonuc.innerHTML.lastIndexOf(say),1);
+                                    sonuc.innerHTML = sonuc.innerHTML + 1 / eval(say);
+                                    say = 1 / eval(say);
+                                    say = say.toString();
+                                }
+                                else{
+                                    sonuc.innerHTML = 1/eval(sonuc.innerHTML);
+                                }
+                            }
+                            say = sonuc.innerHTML;
+                            if(eval(say) < 1){
+                                nokta = true;
+                            }
+                        }
+                    }
+                }
+                catch (e) {
+                    sonuc.innerHTML = e;
+                }
+                return;   
+            }
+            else if(deger == "x^2"){
+                try {
+                    if(sonuc.innerHTML != ""){
+                        if(sonuc.innerHTML.substr(-1,1) != "+" && sonuc.innerHTML.substr(-1,1) != "-" 
+                        && sonuc.innerHTML.substr(-1,1) != "/" && sonuc.innerHTML.substr(-1,1) != "*" && sonuc.innerHTML.substr(-1,1) != "."){
+                            if(sonuc.innerHTML.match(/\*/g) ||
+                            sonuc.innerHTML.match(/\-/g) ||
+                            sonuc.innerHTML.match(/\+/g) ||
+                            sonuc.innerHTML.match(/\//g)){
+                                if(say.substr(0,1) == "+" || say.substr(0,1) == "-"){
+                                    say = say.substr(1,say.length);
+                                }
+                                sonuc.innerHTML = sonuc.innerHTML.slice(0,sonuc.innerHTML.lastIndexOf(say)) + sonuc.innerHTML.slice(sonuc.innerHTML.lastIndexOf(say),1);
+                                sonuc.innerHTML = sonuc.innerHTML + eval(say) ** 2;
+                                say = eval(say) **2;
+                                say = say.toString();
+                            }
+                            else{
+                                sonuc.innerHTML = eval(sonuc.innerHTML) ** 2;
+                         }
+                        }
+                    }
+                }
+                catch (e) {
+                    sonuc.innerHTML = "0";
+                }
+                return;   
+            }
+            else if(deger == "√"){
+                try {
+                    if(sonuc.innerHTML != ""){
+                        if(sonuc.innerHTML.substr(-1,1) != "+" && sonuc.innerHTML.substr(-1,1) != "-" 
+                            && sonuc.innerHTML.substr(-1,1) != "/" && sonuc.innerHTML.substr(-1,1) != "*" && sonuc.innerHTML.substr(-1,1) != "."){
+                                if(sonuc.innerHTML.match(/\*/g) ||
+                                sonuc.innerHTML.match(/\-/g) ||
+                                sonuc.innerHTML.match(/\+/g) ||
+                                sonuc.innerHTML.match(/\//g)){
+                                    if(say.substr(0,1) == "+" || say.substr(0,1) == "-"){
+                                        say = say.substr(1,say.length);
+                                    }
+                                    sonuc.innerHTML = sonuc.innerHTML.slice(0,sonuc.innerHTML.lastIndexOf(say)) + sonuc.innerHTML.slice(sonuc.innerHTML.lastIndexOf(say),1);
+                                    sonuc.innerHTML = sonuc.innerHTML + Math.sqrt(eval(say));
+                                    say = Math.sqrt(eval(say));
+                                    say = say.toString();
+                                }
+                                else{
+                                    sonuc.innerHTML = Math.sqrt(eval(sonuc.innerHTML));
+                                    say = Math.sqrt(eval(say));
+                                    say = say.toString();
+                                }
+                            }
+                            if(say.match(/\./g)){
+                                nokta = true;
+                            }
+                    }
+                }
+                catch (e) {
+                    sonuc.innerHTML = "0";
+                }
+                return;   
+            }
+
+            else if(deger == "+/-"){
+                try {
+                    if(sonuc.innerHTML != ""){
+                        if(sonuc.innerHTML.substr(-1,1) != "+" && sonuc.innerHTML.substr(-1,1) != "-"){
+                            if(sonuc.innerHTML.substr(-say.length,1) == "-"){
+                                sonuc.innerHTML = sonuc.innerHTML.replace(sonuc.innerHTML.substr(-say.length,say.length),"");
+                                sonuc.innerHTML = sonuc.innerHTML + "+" + say.substr(1,say.length);
+                            }
+                            else if(sonuc.innerHTML.substr(-say.length,1) == "+"){
+                                sonuc.innerHTML = sonuc.innerHTML.replace(sonuc.innerHTML.substr(-say.length,say.length),"");
+                                sonuc.innerHTML = sonuc.innerHTML + "-" + say.substr(1,say.length);
+                            }
+                        }  
+                    }
+                }
+                catch (e) {
+                    sonuc.innerHTML = "0";
+                }
+                return;
+            }
+            sonuc.innerHTML += deger;
+            if(sonuc.innerHTML.substr(-1,1) == "."){
+                say += ".";
+                document.getElementById("a").innerHTML = say;
+            }
+
+            if(sonuc.innerHTML.length > 1){
+                if(nokta && deger == "."){
+                    if(sonuc.innerHTML.substr(-1,1) == "."){
+                        sonuc.innerHTML = sonuc.innerHTML.substr(0,sonuc.innerHTML.length-1);
+                        say = say.substr(0,say.length-1);
+                        document.getElementById("a").innerHTML = say;
+                    }
+                }
+                else if(sonuc.innerHTML.substr(-2,1) == "."){
+                    nokta = true;
+                }
+            }
+            
+            if(sonuc.innerHTML.length > 0){
+                if(sonuc.innerHTML.substr(-1,1) == "+" ||sonuc.innerHTML.substr(-1,1) == "-" ||
+                    sonuc.innerHTML.substr(-1,1) == "*" || sonuc.innerHTML.substr(-1,1) == "/" || sonuc.innerHTML.substr(-1,1) == "." ||
+                    say.substr(-1,1) == "."){
+                    if(sonuc.innerHTML.substr(-2,1) == "-" || sonuc.innerHTML.substr(-2,1) == "+" ||
+                    sonuc.innerHTML.substr(-2,1) == "*" ||sonuc.innerHTML.substr(-2,1) == "/" || sonuc.innerHTML.substr(-2,1) == "." ||
+                    say.substr(-2,1) == "."){
+                        sonuc.innerHTML = sonuc.innerHTML.substr(0,sonuc.innerHTML.length-1);
+                        say = say.substr(0,say.length-1);
+                    }
+                }
+            }
+            if(sonuc.innerHTML.length == 2 && sonuc.innerHTML.substr(0,1) == "0" && sonuc.innerHTML.substr(1,1) != "." &&
+            sonuc.innerHTML.substr(1,1) != "-" && sonuc.innerHTML.substr(1,1) != "*" && sonuc.innerHTML.substr(1,1) != "/" && sonuc.innerHTML.substr(1,1) != "+"){
+                sonuc.innerHTML = sonuc.innerHTML.substr(0,sonuc.innerHTML.length-1);
+            }
+            if(say.length==2 && say.substr(0,1) == "0"){
+                say = say.substr(0,1);
+                document.getElementById("a").innerHTML = say;
+            }
+        }   
+    </script>
+</body>
+</html>
+
+
+
+
+if(say.length==2 && say.substr(0,1) == "0"){
+                say = say.substr(0,1);
+            }

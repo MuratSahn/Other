@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        html {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(33, 32, 32);
+        }
+        .phone {
+            width: 330px;
+            height: 630px;
+            border: 1px solid gray;
+            border-radius: 35px;
+            background-image: url(ip.jpg);
+            background-size: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .ada {
+            width: 100px;
+            height: 30px;
+            border: 0;
+            border-radius: 20px;
+            background-color: black;
+            margin-top: 10px;
+            transition: width 0.3s, height 0.3s;
+        }
+        .ada.hover {
+            width: 180px;
+            height: 30px;
+        }
+        .ada.clicked {
+            width: 200px;
+            height: 80px;
+        }
+        @media only screen and (max-width: 768px) {
+            html{
+                height: var(--vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone">
+        <div class="ada"></div>
+    </div>
+
+    <script>
+        window.addEventListener("load", function(){
+            document.documentElement.style.setProperty("--vh", window.innerHeight + "px");
+        });
+
+        let ada = document.querySelector(".ada");
+        let clicked = 0;
+
+        ada.addEventListener("click", function(){
+            if(clicked === 0){
+                ada.classList.add("hover");
+                clicked = 1;
+            }
+            else if(clicked === 1){
+                ada.classList.add("clicked");
+                clicked = 2;
+            }
+            else if(clicked === 2){
+                ada.classList.remove("clicked");
+                clicked = 3;
+            }
+            else if(clicked === 3){
+                ada.classList.remove("hover");
+                clicked = 0;
+            }
+        });
+        
+    </script>
+</body>
+</html>
